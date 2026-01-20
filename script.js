@@ -13,12 +13,59 @@ let theWord = "hello"
 
 console.log(theWord)
 
+function Animal(name) { }
+Animal.prototype.earOptions = []
+
+Animal.prototype.setEars = function (ears) {
+    // guard
+    if (!this.earOptions.includes(ears)) {
+        console.warn(`"${ears}" is not a valid type of ears for this animal.`);
+        return;
+    }
+
+    this.ears = ears;
+}
+
+function Dog(name) { // "class" (actually constructor function)
+    this.earOptions = ["floppy", "pointy"];
+
+    this.name = name;
+    this.sound = "woof";
+    // this.ears = ;
+    this.hasTail = true;
+    this.breed = "mutt";
+}
+Object.setPrototypeOf(Dog.prototype, Animal.prototype);
+
+function Elephant(name) {
+    this.earOptions = ["floppy"];
+
+    this.name = name;
+    this.sound = "elephant sound";
+    this.hasTail = true;
+}
+Object.setPrototypeOf(Elephant.prototype, Animal.prototype);
+
+const fido = new Dog("fido");
+fido.setEars("pointy");
+
+const dumbo = new Elephant("dumbo");
+dumbo.setEars("floppy");
+
+const violet = {
+    sound: "meow",
+    ears: "pointy",
+    hasTail: "true",
+    canGoOutside: false
+}
+
+
 // object literal syntax
 const config = { // one = is "assignment operator"
     paragraphId: "my-paragraph",
-    "color": DEFAULT_COLOR,
-    "7 day": true
+    color: DEFAULT_COLOR,
 }
+config.status = "good"
 
 // CORPORATION_COLOR = "green"
 
@@ -52,7 +99,6 @@ setTextColor(config.color);
 
 // affordance - UI term
 
-alert(config["7 day"])
 
 delete config["7 day"];
 
@@ -64,4 +110,3 @@ const secondArray = Array.from({
 
 console.log(secondArray);
 
-alert(window)
