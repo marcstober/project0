@@ -13,27 +13,32 @@ let theWord = "hello"
 
 console.log(theWord)
 
-function Animal(name) { }
-Animal.prototype.earOptions = []
-
-Animal.prototype.setEars = function (ears) {
-    // guard
-    if (!this.earOptions.includes(ears)) {
-        console.warn(`"${ears}" is not a valid type of ears for this animal.`);
-        return;
+class Animal {
+    constructor(name) {
+        this.earOptions = []
     }
 
-    this.ears = ears;
+    setEars(ears) {
+        // guard
+        if (!this.earOptions.includes(ears)) {
+            console.warn(`"${ears}" is not a valid type of ears for this animal.`);
+            return;
+        }
+
+        this.ears = ears;
+    }
 }
 
-function Dog(name) { // "class" (actually constructor function)
-    this.earOptions = ["floppy", "pointy"];
+class Dog { // "class" (actually constructor function)
+    constructor(name) {
+        this.earOptions = ["floppy", "pointy"];
 
-    this.name = name;
-    this.sound = "woof";
-    // this.ears = ;
-    this.hasTail = true;
-    this.breed = "mutt";
+        this.name = name;
+        this.sound = "woof";
+        // this.ears = ;
+        this.hasTail = true;
+        this.breed = "mutt";
+    }
 }
 Object.setPrototypeOf(Dog.prototype, Animal.prototype);
 
@@ -110,3 +115,7 @@ const secondArray = Array.from({
 
 console.log(secondArray);
 
+function setEarTypes(animal, ...types) {
+    console.log(`Types fop ${animal}`)
+    console.log(types)
+}
