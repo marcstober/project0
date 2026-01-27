@@ -6,116 +6,130 @@ const DEFAULT_COLOR = "blue"
 
 const theData = []
 
-let theWord = "hello"
+// object literal syntax
+// let student = {
+//     // properties
+//     name: "jo",
+//     major: "game design",
 
-// doesn't work
-// theWord[2] = "x"
+//     // method
+//     goToClass: function () {
+//         console.log(`on my way to ${this.major}!`);
+//     }
+// }
 
-console.log(theWord)
-
-class Animal {
+class Person {
     constructor(name) {
-        this.earOptions = []
+        // notice the pattern: parameter and bound property with same name
+        // (not required, but can be a useful convention)
+        this.name = name;
+    }
+}
+
+class Student extends Person {
+    constructor(name, major) {
+        super(name);
+        this.major = major || "game design"; // JS idiom to set a default value
     }
 
-    setEars(ears) {
-        // guard
-        if (!this.earOptions.includes(ears)) {
-            console.warn(`"${ears}" is not a valid type of ears for this animal.`);
-            return;
+    // this exact same code is shared by all instances
+    goToClass() {
+        console.log(`${this.name} says: on my way to ${this.major}!`);
+    }
+}
+
+class Teacher extends Person {
+    constructor(name, department) {
+        super(name);
+        this.department = department;
+    }
+
+    goToClass() {
+        console.log(`Prof. ${this.name} says: I teach ${this.department}`)
+
+        let theFn = () => { console.log("  I'm an arrow function!", this.name);}
+
+        callAFn(theFn);
+
+        function tradFn () {
+            console.log("  I'm a traditional function", this.name);
         }
 
-        this.ears = ears;
+        // callAFn(tradFn);
+        callAFn(tradFn.bind(this));
     }
 }
 
-class Dog { // "class" (actually constructor function)
-    constructor(name) {
-        this.earOptions = ["floppy", "pointy"];
+// use the keyword "new" to create and **instance** of the class
+let student = new Student("jo"); // notice the pattern
 
-        this.name = name;
-        this.sound = "woof";
-        // this.ears = ;
-        this.hasTail = true;
-        this.breed = "mutt";
-    }
+let otherStudent = new Student("sam", "biology");
+
+let prof = new Teacher("bob", "DGM");
+
+let everyone = [student, otherStudent, prof]
+
+for(let person of everyone) {
+    person.goToClass(); // polymorphism
 }
-Object.setPrototypeOf(Dog.prototype, Animal.prototype);
 
-function Elephant(name) {
-    this.earOptions = ["floppy"];
-
+function StaffMember(name) {
     this.name = name;
-    this.sound = "elephant sound";
-    this.hasTail = true;
 }
-Object.setPrototypeOf(Elephant.prototype, Animal.prototype);
+//StaffMember.prototype = 
+//StaffMember.setProtoTyp   eOf()
 
-const fido = new Dog("fido");
-fido.setEars("pointy");
+let advisor = new StaffMember("kerri");
+console.log(advisor.name);
 
-const dumbo = new Elephant("dumbo");
-dumbo.setEars("floppy");
+console.log(Teacher.prototype);
 
-const violet = {
-    sound: "meow",
-    ears: "pointy",
-    hasTail: "true",
-    canGoOutside: false
+// let x = Teacher("jim") // can't do this, but it's an error about needing "new"
+
+// method gets detached
+function callGoToClass(goToClassMethod)  {
+    goToClassMethod();
 }
 
-
-// object literal syntax
-const config = { // one = is "assignment operator"
-    paragraphId: "my-paragraph",
-    color: DEFAULT_COLOR,
-}
-config.status = "good"
-
-// CORPORATION_COLOR = "green"
-
-function greetUser() {
-    alert(getTextColor());
-    theData.push("greetUser called")
-
-    console.log(theData[0], theData["length"]);
-
+function callAFn(fn) {
+    console.log("Calling a function...");
+    fn();
+    console.log("Function was called!");
 }
 
-
-function getTextColor() {
-    let a = 1;
-    let b = 2;
-    console.log(a + b);
-
-    return document.getElementById(config.paragraphId).style.color
+console.log("Running second bind example:");
+// doesn't work - TODO
+// callGoToClass(prof.goToClass);
+callGoToClass(prof.goToClass.bind(prof));
 
 
+
+
+// console.log(window);
+console.log(document);
+
+let newDiv = document.createElement("div");
+newDiv.innerText = "hello"
+console.log(newDiv);
+
+let myP = document.getElementById("my-paragraph");
+console.log(myP.innerHTML);
+
+let translateds = document.getElementsByClassName("translated-text")
+for (let el of translateds) {
+    if (el.innerText.indexOf("Welcome") >= 0) { // TODO: fix this!
+        el.innerText = "Bienvenue"
+    }
+    console.log(el);
 }
 
-function setTextColor(color) {
-    document.getElementById(config.paragraphId).style.color = color
-}
+let t = document.querySelector("p.translated-text");
+console.log("t=", t);
 
-config.color = CORPORATE_COLOR;
-setTextColor(config.color);
+let b = document.querySelector("body").appendChild(newDiv);
+newDiv.style.backgroundColor = "grey";
+console.log(newDiv.tagName);
 
-// regression testing
-
-// affordance - UI term
-
-
-delete config["7 day"];
-
-console.log(config)
-
-const secondArray = Array.from({
-    length: 10
+newDiv.addEventListener("click", (evt) => {
+    console.log("You clicked", evt.target);
 })
-
-console.log(secondArray);
-
-function setEarTypes(animal, ...types) {
-    console.log(`Types fop ${animal}`)
-    console.log(types)
-}

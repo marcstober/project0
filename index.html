@@ -3,16 +3,16 @@
 <head>
     <title>Marc's Web Page</title>
     <!-- TODO: add link to CSS file -->
+     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
     <!-- TODO: read the article and do it the other way that doesn't use "onclick" in the HTML file -->
-    <h1 onclick="greetUser()">Welcome to Marc's Web Page</h1>
+    <h1 onclick="greetUser()" class="translated-text">Welcome to Marc's Web Page</h1>
 
-    <p id="my-paragraph">Marc loves to write JavaScript!</p>
+    <p id="my-paragraph" class="translated-text" onclick="alert(1+2)">Marc loves to write JavaScript!!!!</p>
 </body>
-<!-- TODO: fix the invalid HTML here -->
+
 <script src="script.js"></script>
 
 </html>
