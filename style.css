@@ -1,4 +1,7 @@
-/* TODO: add CSS here */
 .green {
     color: green;
+}
+
+#the-log {
+    display: none;
 }
